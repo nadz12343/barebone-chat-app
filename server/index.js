@@ -45,13 +45,11 @@ wss.on('connection', ws => {
         if ('user_id' in parsedObject && 'contact_id' in parsedObject && 'sender_id' in parsedObject && 'userTypedMsg' in parsedObject){
 
             //we want to insert the new messaage into the dataase
-            const message = escapeApostrophes(parsedObject.userTypedMsg)
+            const message = escapeApostrophes(parsedObject.userTypedMsg) //without escaping we get DB error
             const inserted = await pool.query(`INSERT INTO chats (id,user_id, contact_id, sender_id, message, created_at) 
                                                 VALUES (DEFAULT, ${parsedObject.user_id}, ${parsedObject.contact_id}, ${parsedObject.sender_id}, '${message}', NOW() )`)
 
 
-
-            console.log(inserted)
             // now we want to send the chat history (includes new message) to the client
             const chat = await pool.query(`select * from chats where (user_id = ${parsedObject.user_id} AND contact_id = ${parsedObject.contact_id}) OR (user_id = ${parsedObject.contact_id} AND contact_id = ${parsedObject.user_id})`)
             clients.filter(client => client.send(JSON.stringify(chat['rows'])))
