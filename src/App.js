@@ -1,25 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Chatbubble from './components/Chatbubble';
+import {useEffect, useState} from 'react'
+import ChatRoom from './components/tree/Chatroom';
+import Login from './components/tree/Login';
 
-export default App;
+export default function App() {
+
+  return (
+    <Login/>
+  )
+}
